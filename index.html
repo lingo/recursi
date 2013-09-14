@@ -11,19 +11,23 @@
 <body>
 <div style="position: absolute; left: 10px; right: 10px; top: 10px; bottom: 10px;">
   <div class="well" style="float: left; width: 160px; padding: 8px;">
-    <ul class="nav nav-list">
+    <ul class="nav nav-list filesystem-links">
       <li class="nav-header">File System</li>
-      <li><a href="#"><i class="icon-book"></i> Root</a></li>
-      <li class="active"><a href="#"><i class="icon-white icon-home"></i> Home</a></li>
+      <li class="active" title="This was your start directory" id="current-directory"><a href="~" data-path="~"><i class="icon-eye-open"></i> Current Directory</a></li>
       <li class="divider"></li>
-      <li><a href="#"><i class="icon-flag"></i> About</a></li>
+      <li><a href="/" data-path="/"><i class="icon-folder-close"></i> Root</a></li>
+      <li><a href="~" data-path="~"><i class="icon-home"></i> Home</a></li>
       <li class="divider"></li>
+    </ul>
+    <ul class="nav nav-list">
       <li class="nav-header">Settings</li>
       <li class="controls">
         <form action="" class="navbar-form">
           <label for="thumb-size-input">Thumbnail size</label><input type="range" min="24" max="256" step="8" id="thumb-size-input">
         </form>
       </li>
+      <li class="divider"></li>
+      <li><a href="#" id="app-about"><i class="icon-flag"></i> About</a></li>
     </ul>
   </div>
 

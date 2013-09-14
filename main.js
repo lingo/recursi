@@ -94,4 +94,19 @@ $(document).ready(function() {
   addressbar.on('navigate', function(dir) {
     folder.open(dir);
   });
+
+
+  $('.filesystem-links').on('click', 'li > a', function(e) {
+    var dir = path.normalize(this.getAttribute('data-path'));
+    if (dir === '~') {
+      dir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
+    }
+    $(this).closest('ul').find('li').removeClass('active');
+    $(this).closest('li').addClass('active');
+    addressbar.set(dir);
+    folder.open(dir);
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  });
 });
