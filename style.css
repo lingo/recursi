@@ -28,7 +28,7 @@ body {
 }
 
 .file .name {
-  width: 80px;
+  width:     100%;
   word-wrap: break-word;
 }
 
