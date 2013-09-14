@@ -1,3 +1,5 @@
+force: clean main
+
 main: recursi.nw
 	cat $$(readlink $$(which nw)) recursi.nw > recursi
 	chmod +x recursi

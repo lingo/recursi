@@ -53,3 +53,22 @@ body {
 #thumb-size-input {
   max-width: 100%;
 }
+
+#files {
+  background: #FFF; -webkit-border-radius: 2px;
+  margin: -5px 1px 0 -19px;
+  height: 100%;
+  overflow: auto;
+}
+
+.directory > h2 {
+    font-size:  1.4em;
+    background: gainsboro;
+    padding:    0 0.25em;
+    color:      grey;
+    border:     1px dotted gray;
+}
+
+.folder {
+  margin: 5px;
+}
