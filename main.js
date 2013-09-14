@@ -50,6 +50,14 @@ var debounce = function (func, threshold, execAsap) {
     };
 }
 
+function getStartDir(app) {
+  var startDir = process.cwd();
+  if (app.argv.length) {
+    startDir = app.argv[0];
+  }
+  return startDir;
+}
+
 $(document).ready(function() {
   var app = gui.App;
   var settings = {app: app, thumbSize: 96};
@@ -59,10 +67,8 @@ $(document).ready(function() {
   if (!fs.existsSync(thumbDir)) {
     fs.mkdirSync(thumbDir);
   }
-  var startDir = process.cwd();
-  if (app.argv.length) {
-    startDir = app.argv[0];
-  }
+  
+  var startDir   = getStartDir(app);
 
   var folder = new folder_view.Folder(settings, $('#files'));
   var reThumb = debounce(function() {folder.updateThumbnails();}, 500);
