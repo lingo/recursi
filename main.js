@@ -1,12 +1,12 @@
 global.$ = $;
 
-var abar = require('address_bar');
-var controls = require('controls');
+var abar        = require('address_bar');
+var controls    = require('controls');
 var folder_view = require('folder_view');
-var path = require('path');
-var gui = require('nw.gui')
-var fs = require('fs');
-var shell = gui.Shell;
+var path        = require('path');
+var gui         = require('nw.gui')
+var fs          = require('fs');
+var shell       = gui.Shell;
 
 
 function getRuleBySelector(sheet, selector) {
@@ -60,7 +60,11 @@ function getStartDir(app) {
 
 $(document).ready(function() {
   var app = gui.App;
-  var settings = {app: app, thumbSize: 96};
+  var settings = {
+    app:        app,
+    thumbSize:  96,
+    showHidden: true
+  };
 
   var dataPath = app.dataPath + ""; //cast to string
   var thumbDir = path.join(dataPath, "/thumbs/");
@@ -69,12 +73,13 @@ $(document).ready(function() {
   }
   
   var startDir   = getStartDir(app);
+  var cwdElt = $('#current-directory');
+  cwdElt.find('> a').attr('data-path', startDir)[0].childNodes[1].textContent = ' ' + path.basename(startDir);
 
-  var folder = new folder_view.Folder(settings, $('#files'));
-  var reThumb = debounce(function() {folder.updateThumbnails();}, 500);
+  var folder     = new folder_view.Folder(settings, $('#files'));
   var addressbar = new abar.AddressBar($('#addressbar'));
-
-  var thumbSize = new controls.ThumbSize(gui.App, $('#thumb-size-input'));
+  var thumbSize  = new controls.ThumbSize(settings, $('#thumb-size-input'));
+  var reThumb    = debounce(function() {folder.cancelThumbs(); folder.updateThumbnails();}, 500);
 
   thumbSize.on('update', function(thumbSize) {
     console.log("New thumbnail size: ", thumbSize);
@@ -82,6 +87,10 @@ $(document).ready(function() {
     var cssRule = getCSSRule('.file');
     if (cssRule) {
       cssRule.style.width = thumbSize + 'px';
+      cssRule = getCSSRule('.file .name');
+      if (cssRule) {
+        cssRule.style.fontSize = Math.max(0.6, Math.min(1.0, thumbSize / 96)) + "em";
+      }
       reThumb();
     }
   });
