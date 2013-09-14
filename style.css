@@ -46,7 +46,9 @@ body {
   -webkit-filter: invert(20%);
 }
 
-
+.file .icon img {
+  width: 100%;
+}
 
 #thumb-size-input {
   max-width: 100%;

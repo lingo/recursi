@@ -8,6 +8,7 @@ var gui = require('nw.gui')
 var fs = require('fs');
 var shell = gui.Shell;
 
+
 function getRuleBySelector(sheet, selector) {
   var rules = sheet.cssRules, rule;
   for(var i=0; i < rules.length; i++) {
@@ -31,8 +32,28 @@ function getCSSRule(rule) {
   return false;
 }
 
+// From: http://unscriptable.com/2009/03/20/debouncing-javascript-methods/
+var debounce = function (func, threshold, execAsap) {
+    var timeout;
+    return function debounced () {
+        var obj = this, args = arguments;
+        function delayed () {
+            if (!execAsap)
+                func.apply(obj, args);
+            timeout = null; 
+        };
+        if (timeout)
+            clearTimeout(timeout);
+        else if (execAsap)
+            func.apply(obj, args);
+        timeout = setTimeout(delayed, threshold || 100); 
+    };
+}
+
 $(document).ready(function() {
   var app = gui.App;
+  var settings = {app: app, thumbSize: 96};
+
   var dataPath = app.dataPath + ""; //cast to string
   var thumbDir = path.join(dataPath, "/thumbs/");
   if (!fs.existsSync(thumbDir)) {
@@ -43,16 +64,19 @@ $(document).ready(function() {
     startDir = app.argv[0];
   }
 
-  var folder = new folder_view.Folder(gui.App, $('#files'));
+  var folder = new folder_view.Folder(settings, $('#files'));
+  var reThumb = debounce(function() {folder.updateThumbnails();}, 500);
   var addressbar = new abar.AddressBar($('#addressbar'));
 
   var thumbSize = new controls.ThumbSize(gui.App, $('#thumb-size-input'));
 
   thumbSize.on('update', function(thumbSize) {
     console.log("New thumbnail size: ", thumbSize);
+    settings.thumbSize = thumbSize;
     var cssRule = getCSSRule('.file');
     if (cssRule) {
       cssRule.style.width = thumbSize + 'px';
+      reThumb();
     }
   });
 
