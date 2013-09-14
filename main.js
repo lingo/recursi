@@ -79,6 +79,7 @@ $(document).ready(function() {
   var folder     = new folder_view.Folder(settings, $('#files'));
   var addressbar = new abar.AddressBar($('#addressbar'));
   var thumbSize  = new controls.ThumbSize(settings, $('#thumb-size-input'));
+  var options    = new controls.Options(settings, $('#options-box'));
   var reThumb    = debounce(function() {folder.cancelThumbs(); folder.updateThumbnails();}, 500);
 
   thumbSize.on('update', function(thumbSize) {
@@ -93,6 +94,11 @@ $(document).ready(function() {
       }
       reThumb();
     }
+  });
+
+  options.on('reload', function() {
+    console.log('reloading');
+    folder.open(); // refresh
   });
 
   folder.open(startDir);
