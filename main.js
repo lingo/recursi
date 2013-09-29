@@ -63,7 +63,8 @@ $(document).ready(function() {
   var settings = {
     app:        app,
     thumbSize:  96,
-    showHidden: true
+    showHidden: true,
+    document:   document
   };
 
   var dataPath = app.dataPath + ""; //cast to string
