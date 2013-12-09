@@ -102,6 +102,11 @@ $(document).ready(function() {
     folder.open(); // refresh
   });
 
+  var dirList = $('#directory-list');
+  folder.on('discover', function(item) {
+    dirList.append('<li><a class="folder-link" href="#' + item.id +'">' + item.name + '</a></li>');
+  });
+
   folder.open(startDir);
   addressbar.set(startDir);
 
@@ -117,6 +122,13 @@ $(document).ready(function() {
     folder.open(dir);
   });
 
+  $('#directory-list').on('click', '.folder-link', function(e) {
+    var link = this.href;
+    console.log('clicked link', link, this);
+    $('#files').scrollTo($(link));
+    e.preventDefault();
+    return false;
+  });
 
   $('.filesystem-links').on('click', 'li > a', function(e) {
     var dir = path.normalize(this.getAttribute('data-path'));

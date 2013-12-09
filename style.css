@@ -87,3 +87,10 @@ body {
   margin: 5px;
 }
 
+#directory-list {
+    list-style: none;
+    max-width: 100%;
+    overflow: auto;
+    padding: 0;
+    margin: 0;
+}
